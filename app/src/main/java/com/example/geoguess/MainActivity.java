@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
                         mAdapter.notifyItemRemoved(position);
                     }
                 };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(rvImages);
     }
 
 }
