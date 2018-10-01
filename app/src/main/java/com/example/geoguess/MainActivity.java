@@ -9,13 +9,16 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
     //saving the drawable id's in an array
-    private int[] imageNames = {R.drawable.img1_yes_denmark,
+    private static final int[] IMAGE_NAMES = {R.drawable.img1_yes_denmark,
             R.drawable.img2_no_canada,
             R.drawable.img3_no_bangladesh,
             R.drawable.img4_yes_kazachstan,
@@ -25,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.img8_no_thailand};
 
     //a boolean array to save the answers
-    private boolean[] europeImages = {true,
+    private static final boolean[] EUROPE_BOOLEANS = {true,
             false,
             false,
             true,
@@ -35,7 +38,8 @@ public class MainActivity extends AppCompatActivity {
             false};
 
     private View view;
-    private ImageAdapter mAdapter;
+    private GeoImageAdapter mAdapter;
+
     @BindView(R.id.rvImages)
     RecyclerView rvImages;
 
@@ -48,8 +52,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        final List<GeoImage> geoImages = new ArrayList<>();
+
+        for (int i = 0; i < IMAGE_NAMES.length; i++) {
+            geoImages.add(new GeoImage(IMAGE_NAMES[i], EUROPE_BOOLEANS[i]));
+        }
+
         view = findViewById(R.id.main_layout);
-        mAdapter = new ImageAdapter(imageNames);
+        mAdapter = new GeoImageAdapter(geoImages);
         rvImages.setAdapter(mAdapter);
         rvImages.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback =
@@ -68,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         // swipe left
                         if (swipeDir == ItemTouchHelper.LEFT) {
                             //if the image is in europe a correct snackbar will be shown
-                            if (europeImages[position]) {
+                            if (EUROPE_BOOLEANS[position]) {
                                 Snackbar
                                         .make(view, "Correct", Snackbar.LENGTH_SHORT)
                                         .show();
@@ -79,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else if (swipeDir == ItemTouchHelper.RIGHT) {
                             //if the image is not in europe a correct snackbar will be shown
-                            if (!europeImages[viewHolder.getAdapterPosition()]) {
+                            if (!EUROPE_BOOLEANS[viewHolder.getAdapterPosition()]) {
                                 Snackbar
                                         .make(view, "Correct", Snackbar.LENGTH_SHORT)
                                         .show();
@@ -89,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                                         .show();
                             }
                         }
-
+                        geoImages.remove(position);
                         mAdapter.notifyItemRemoved(position);
                     }
                 };

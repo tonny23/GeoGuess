@@ -8,36 +8,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import java.util.List;
+
 /**
  * Adapter for the images in the recyclerview
  */
-public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
+public class GeoImageAdapter extends RecyclerView.Adapter<GeoImageAdapter.ViewHolder> {
 
-    private int[] mImages;
+    private List<GeoImage> mGeoImages;
 
-    public ImageAdapter(int[] images) {
-        this.mImages = images;
+    public GeoImageAdapter(List<GeoImage> geoImages) {
+        this.mGeoImages = geoImages;
     }
 
     @NonNull
     @Override
-    public ImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public GeoImageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater= LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.image_item, null);
         // Return a new holder instance
-        ImageAdapter.ViewHolder viewHolder = new ImageAdapter.ViewHolder(view);
+        GeoImageAdapter.ViewHolder viewHolder = new GeoImageAdapter.ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ImageAdapter.ViewHolder holder, int position) {
-        holder.mImageView.setImageResource(mImages[position]);
+    public void onBindViewHolder(@NonNull GeoImageAdapter.ViewHolder holder, int position) {
+        holder.mImageView.setImageResource(mGeoImages.get(position).getImageId());
     }
 
     @Override
     public int getItemCount() {
-        return mImages.length;
+        return mGeoImages.size();
     }
 
     //show an imageview in the recyclerview items
