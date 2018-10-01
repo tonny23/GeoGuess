@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         // swipe left
                         if (swipeDir == ItemTouchHelper.LEFT) {
                             //if the image is in europe a correct snackbar will be shown
-                            if (EUROPE_BOOLEANS[position]) {
+                            if (geoImages.get(position).isEurope()) {
                                 Snackbar
                                         .make(view, "Correct", Snackbar.LENGTH_SHORT)
                                         .show();
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         } else if (swipeDir == ItemTouchHelper.RIGHT) {
                             //if the image is not in europe a correct snackbar will be shown
-                            if (!EUROPE_BOOLEANS[viewHolder.getAdapterPosition()]) {
+                            if (!geoImages.get(position).isEurope()) {
                                 Snackbar
                                         .make(view, "Correct", Snackbar.LENGTH_SHORT)
                                         .show();
